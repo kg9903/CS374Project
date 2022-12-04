@@ -5,7 +5,7 @@ from sklearn.datasets import make_classification
 import pickle
 import tifffile as tiff
 
-TRAIN_SET_SIZE = 32
+TRAIN_SET_SIZE = 42
 
 def tifToVec(path):
     image = tiff.imread(path)
@@ -18,7 +18,7 @@ def tifToVec(path):
 def getXtrain():
     Xtrain = np.zeros((0,3))
     for i in range(0, TRAIN_SET_SIZE):
-        red_channel, green_channel, blue_channel = tifToVec('../Dataset/Original_resized/'+str(i)+'.tif')
+        red_channel, green_channel, blue_channel = tifToVec('Dataset/Original_resized/'+str(i)+'.tif')
         temp = np.stack((red_channel, green_channel, blue_channel), axis=-1)
         Xtrain = np.concatenate((Xtrain, temp), axis=0)
     return Xtrain
@@ -26,16 +26,16 @@ def getXtrain():
 def getYtrain():
     Ytrain = np.zeros((0,3))
     for i in range(0, TRAIN_SET_SIZE):
-        red_channel, green_channel, blue_channel = tifToVec('../Dataset/Inverted_resized/'+str(i)+'.tif')
+        red_channel, green_channel, blue_channel = tifToVec('Dataset/Inverted_resized/'+str(i)+'.tif')
         temp = np.stack((red_channel, green_channel, blue_channel), axis=-1)
         Ytrain = np.concatenate((Ytrain, temp), axis=0)
     return Ytrain
 
 def writeTiff(prediction):
-    red_r = prediction[:,0].reshape((256,256))
-    green_r = prediction[:,1].reshape((256,256))
-    blue_r = prediction[:,2].reshape((256,256))
-    data = np.zeros((256,256,3), 'uint16')
+    red_r = prediction[:,0].reshape((1024,1024))
+    green_r = prediction[:,1].reshape((1024,1024))
+    blue_r = prediction[:,2].reshape((1024,1024))
+    data = np.zeros((1024,1024,3), 'uint16')
     data[ :, :, 0] = red_r
     data[ :, :, 1] = green_r
     data[ :, :, 2] = blue_r

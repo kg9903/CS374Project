@@ -19,9 +19,9 @@ Y_val = np.stack((r_c, g_c, b_c), axis=-1)
 r_c, g_c, b_c = tifToVec("test.TIF")
 Xmat_test= np.stack((r_c, g_c, b_c), axis=-1)
 
-model = MLPRegressor(hidden_layer_sizes=(64,64), activation='relu',
+model = MLPRegressor(hidden_layer_sizes=(32,64,32,), activation='relu',
  solver='adam', alpha=0.001, batch_size='auto', learning_rate='constant', 
- learning_rate_init=0.001, power_t=0.5, max_iter=200, shuffle=True, 
+ learning_rate_init=0.001, power_t=0.5, max_iter=300, shuffle=True, 
  random_state=None, tol=0.0001, verbose=True, warm_start=False, 
  momentum=0.9, nesterovs_momentum=True, early_stopping=False, 
  validation_fraction=0.1, beta_1=0.9, beta_2=0.999, epsilon=1e-08, 
