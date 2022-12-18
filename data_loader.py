@@ -5,7 +5,9 @@ from sklearn.datasets import make_classification
 import pickle
 import tifffile as tiff
 
-TRAIN_SET_SIZE = 42
+TRAIN_SET_SIZE = 15
+VAL_SET_SIZE = 2
+TEST_SET_SIZE = 2
 
 def tifToVec(path):
     image = tiff.imread(path)
@@ -30,6 +32,38 @@ def getYtrain():
         temp = np.stack((red_channel, green_channel, blue_channel), axis=-1)
         Ytrain = np.concatenate((Ytrain, temp), axis=0)
     return Ytrain
+
+def getXval():
+    Xval = np.zeros((0,3))
+    for i in range(0, VAL_SET_SIZE):
+        red_channel, green_channel, blue_channel = tifToVec('Dataset/Original_resized/v'+str(i)+'.tif')
+        temp = np.stack((red_channel, green_channel, blue_channel), axis=-1)
+        Xval = np.concatenate((Xval, temp), axis=0)
+    return Xval
+
+def getYval():
+    Yval = np.zeros((0,3))
+    for i in range(0, VAL_SET_SIZE):
+        red_channel, green_channel, blue_channel = tifToVec('Dataset/Inverted_resized/v'+str(i)+'.tif')
+        temp = np.stack((red_channel, green_channel, blue_channel), axis=-1)
+        Yval = np.concatenate((Yval, temp), axis=0)
+    return Yval
+
+def getXtest():
+    Xval = np.zeros((0,3))
+    for i in range(0, TEST_SET_SIZE):
+        red_channel, green_channel, blue_channel = tifToVec('Dataset/Original_resized/t'+str(i)+'.tif')
+        temp = np.stack((red_channel, green_channel, blue_channel), axis=-1)
+        Xval = np.concatenate((Xval, temp), axis=0)
+    return Xval
+
+def getYtest():
+    Yval = np.zeros((0,3))
+    for i in range(0, TEST_SET_SIZE):
+        red_channel, green_channel, blue_channel = tifToVec('Dataset/Inverted_resized/t'+str(i)+'.tif')
+        temp = np.stack((red_channel, green_channel, blue_channel), axis=-1)
+        Yval = np.concatenate((Yval, temp), axis=0)
+    return Yval
 
 def writeTiff(prediction):
     red_r = prediction[:,0].reshape((1024,1024))
